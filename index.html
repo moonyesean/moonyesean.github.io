@@ -1,17 +1,67 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="zh">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:">
-  <title>homepage</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VirtualLab</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #282828;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 40px;
+      color: #4f70b5;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .button {
+      padding: 15px 40px;
+      font-size: 1.2rem;
+      color: white;
+      background-color: #4f70b5;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      background-color: #4f70b5;
+    }
+
+    .button:active {
+      transform: scale(1);
+      background-color: #4f70b5;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>
-    <a href="project/experiment1.html">焰色反應</a><br>
-    <a href="project/perform.html">粒子擴散</a><br>
-    <a href="project/concentration.html">濃度</a><br>
-  </h1>
+
+  <h1>VirtualLab 虛擬化學實驗室</h1>
+  
+  <div class="button-container">
+    <button class="button" onclick="window.location.href='project/concentration.html'">溶液濃度</button>
+    <button class="button" onclick="window.location.href='project/experiment1.html'">焰色反應</button>
+    <button class="button" onclick="window.location.href='project/perform.html'">氣體擴散</button>
+  </div>
+
 </body>
 </html>
