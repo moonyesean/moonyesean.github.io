@@ -25,6 +25,10 @@ h2 {
   font-weight: bold;
   color: #ffc107 !important;
 }
+.collaspe{
+  width: 72px;
+  float: right;
+}
 
 footer {
   background-color: #eee;
