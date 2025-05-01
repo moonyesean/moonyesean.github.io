@@ -19,6 +19,7 @@ h2 {
 .navbar .nav-item{
   float: right;
   width: 6em;
+  text-align: center;
 }
 .navbar .nav-link:hover{
   font-weight: bold;
