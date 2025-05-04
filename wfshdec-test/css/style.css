@@ -16,14 +16,10 @@ h2 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
 }
-.navbar .nav-item{
-  float: right;
-  width: 80px;
-  text-align: center;
-}
 
 .navbar-nav{
   float: right;
+  text-align: center;
 }
 
 .navbar .nav-link:hover{
@@ -57,11 +53,6 @@ h2 {
 .navbar.scrolled a.nav-link,
 .navbar.scrolled .navbar-brand {
   color: black;
-}
-
-.collaspe{
-  width: 72px;
-  float: right;
 }
 
 footer {
