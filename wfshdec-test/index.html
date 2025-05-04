@@ -10,7 +10,7 @@
 <body>
   <!-- Navbar -->
 <container>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html"><b>實驗班網站</b></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -62,14 +62,14 @@
 
   <!-- Events Section -->
   <section class="section-light">
-    <h2>活動剪影</h2>
+    <h2>升學成果</h2>
     <div class="container">
       <div id="admissions"></div>
     </div>
   </section>
 
   <section class="section-colored">
-    <h2>升學成果</h2>
+    <h2>活動剪影</h2>
     <div class="inner-box">
       <div id="events-list"></div>
     </div>
@@ -85,12 +85,21 @@
   <!-- Footer -->
   <footer>
     <div class="text-center">© 萬芳高中數位學習實驗班</div><br><hr>
-    <div class="text-center" style="text-size= 0.5em;"><b>Creat By</b><br>林聖偉&nbsp&nbsp&nbsp鄭程翔
+    <div class="text-center" style="font-size: 0.9em;"><b>Creat By</b><br>林聖偉&nbsp&nbsp&nbsp鄭程翔
       </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
-
+<script>
+window.addEventListener('scroll', function () {
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 200) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+</script>
 </body>
 </html>

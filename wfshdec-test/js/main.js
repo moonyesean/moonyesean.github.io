@@ -1,13 +1,6 @@
 // main.js
 
-window.addEventListener('scroll', function () {
-  const navbar = document.getElementById('navbar');
-  if (window.scrollY > 200) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
-});
+const navbar = document.getElementById('navbar');
 
 fetch('data/data.json')
   .then(response => response.json())
