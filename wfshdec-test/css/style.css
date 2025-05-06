@@ -33,10 +33,10 @@ h2 {
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px 15px;
   transition: background-color 0.3s, box-shadow 0.3s;
   background-color: transparent;
-  color: white;
+  color: #000;
   z-index: 1030;
 }
 
@@ -69,11 +69,7 @@ img.img-fluid {
   height: auto;
 }
 /* ==== 首頁風格化區域（依照設計圖）==== */
-container{
-  position: fixed;
-  width: 100%;
-  z-index: 1030;
-}
+
 
 .hero {
   background-position: center;
@@ -212,7 +208,4 @@ footer {
 }
 .footer-center{
   text-align: center;
-}
-.down-nav{
-  justify-content: flex-end;
 }
