@@ -26,7 +26,9 @@ h2 {
   font-weight: bold;
   color: #ffc107 !important;
 }
-
+.navbar-toggler{
+  float: inline-end;
+}
 .navbar {
   position: fixed;
   top: 0;
@@ -46,7 +48,7 @@ h2 {
 
 .navbar a.nav-link,
 .navbar .navbar-brand {
-  color: white;
+  color: black;
   transition: color 0.3s;
 }
 
@@ -210,4 +212,7 @@ footer {
 }
 .footer-center{
   text-align: center;
+}
+.down-nav{
+  justify-content: flex-end;
 }
