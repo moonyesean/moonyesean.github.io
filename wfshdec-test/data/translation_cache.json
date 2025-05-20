@@ -19,5 +19,12 @@
     "campus/environment": "校園生活/校園環境",
     "resources/faq": "相關資源/常見問題解答",
     "resources/downloads": "相關資源/下載專區",
-    "resources/transport": "相關資源/交通指引"
+    "resources/transport": "相關資源/交通指引",
+    "home": "主頁",
+    "courses": "課程",
+    "achievements": "成就",
+    "admissions": "招生資訊",
+    "campus": "校園生活",
+    "resources": "相關資源",
+    "home/achievements": "成就"
 }
