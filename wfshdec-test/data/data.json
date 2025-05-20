@@ -18,16 +18,100 @@
         "achievements": {
             "competitions": [
                 {
-                    "title": "競賽成就 2023",
+                    "title": "2025 台灣國際模型公開賽 台中威逸暨全國科幻盃聯賽",
                     "subtitle": "",
-                    "content": "王小明在2023全國資訊應用競賽中榮獲金牌\na8 a8 a8",
+                    "content": "青年組冠軍, 科幻盃特別獎, RF特別獎",
                     "images": [],
                     "files": [],
-                    "date": "2023-12-01",
+                    "date": "2025",
                     "tags": [
                         "競賽",
-                        "資訊"
+                        "模型"
                     ]
+                },
+                {
+                    "title": "2024 RF開拓模型祭 台灣國際模型公開賽自由盃",
+                    "subtitle": "學生組",
+                    "content": "學生組銅牌",
+                    "images": [],
+                    "files": [],
+                    "date": "2024",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "2024 SPARMAX國際噴筆大賽",
+                    "subtitle": "少年組",
+                    "content": "少年組冠軍",
+                    "images": [],
+                    "files": [],
+                    "date": "2024",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "2024 台灣國際模型公開賽 台中威逸盃",
+                    "subtitle": "青年組",
+                    "content": "青年組冠軍, 北回化學有限公司特別獎",
+                    "images": [],
+                    "files": [],
+                    "date": "2024",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "超級模型盃馬拉松 5th",
+                    "subtitle": "少年組",
+                    "content": "top100",
+                    "images": [],
+                    "files": [],
+                    "date": "2023",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "2023 GBWC 鋼彈模型製作家全球盃",
+                    "subtitle": "台灣U20組",
+                    "content": "亞軍",
+                    "images": [],
+                    "files": [],
+                    "date": "2023",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "2023 RF開拓模型祭 台灣國際模型公開賽 自由盃",
+                    "subtitle": "學生組",
+                    "content": "季軍",
+                    "images": [],
+                    "files": [],
+                    "date": "2023",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ] 
+                },
+                {
+                    "title": "2022 超級模型盃",
+                    "subtitle": "少年組",
+                    "content": "季軍",
+                    "images": [],
+                    "files": [],
+                    "date": "2023",
+                    "tags": [
+                        "競賽",
+                        "模型"
+                    ]  
                 }
             ],
             "admissions": [
