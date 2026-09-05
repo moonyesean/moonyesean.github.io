@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>拍剪工作室排程台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --surface:#f7f7fb;
+    --surface-2:#edeefa;
+    --border:#e1e2f0;
+    --ink:#1e2030;
+    --ink-soft:#686c84;
+    --accent:#5b5fef;
+    --accent-ink:#4340c9;
+    --accent-strong:#4a48d9;
+    --on-accent:#ffffff;
+    --sidebar-bg:#14121f;
+    --sidebar-ink:#ece9fd;
+    --sidebar-ink-soft:#8b87ab;
+    --sidebar-active:#a5a4fc;
+    --shadow: 0 1px 2px rgba(20,18,31,0.06), 0 1px 8px rgba(20,18,31,0.05);
+    --ok-bg:#dcf3e5; --ok-ink:#166f45;
+    --info-bg:#dbeafe; --info-ink:#1e3a8a;
+    --warn-bg:#f3ecd8; --warn-ink:#7a5e17;
+    --bad-bg:#fbe4e4; --bad-ink:#a13d3d;
+    --neutral-bg:#e7e7f2; --neutral-ink:#5c5f76;
+    --up:#16a34a; --down:#dc2626;
+    --yt:#e0334f; --ig:#c2359a; --tt:#1e2030; --fb:#3468d1;
+  }
+  @media (prefers-color-scheme: dark){
+    html:not([data-theme="light"]){
+      --bg:#121319;
+      --surface:#191b24;
+      --surface-2:#20222e;
+      --border:#2c2f3d;
+      --ink:#eceefb;
+      --ink-soft:#9a9db3;
+      --accent:#8b8ffb;
+      --accent-ink:#c3c5fd;
+      --accent-strong:#a5a8fc;
+      --on-accent:#151426;
+      --sidebar-bg:#0d0c14;
+      --sidebar-ink:#ece9fd;
+      --sidebar-ink-soft:#7d799d;
+      --sidebar-active:#a5a4fc;
+      --ok-bg:#123a29; --ok-ink:#8ee4b8;
+      --info-bg:#1e3a5f; --info-ink:#bfdbfe;
+      --warn-bg:#3a3416; --warn-ink:#f0dc9a;
+      --bad-bg:#4c1d1d; --bad-ink:#fecaca;
+      --neutral-bg:#2c2f3d; --neutral-ink:#c7c9dc;
+      --tt:#e5e6f5;
+    }
+  }
+  html[data-theme="dark"]{
+    --bg:#121319;
+    --surface:#191b24;
+    --surface-2:#20222e;
+    --border:#2c2f3d;
+    --ink:#eceefb;
+    --ink-soft:#9a9db3;
+    --accent:#8b8ffb;
+    --accent-ink:#c3c5fd;
+    --accent-strong:#a5a8fc;
+    --on-accent:#151426;
+    --sidebar-bg:#0d0c14;
+    --sidebar-ink:#ece9fd;
+    --sidebar-ink-soft:#7d799d;
+    --sidebar-active:#a5a4fc;
+    --ok-bg:#123a29; --ok-ink:#8ee4b8;
+    --info-bg:#1e3a5f; --info-ink:#bfdbfe;
+    --warn-bg:#3a3416; --warn-ink:#f0dc9a;
+    --bad-bg:#4c1d1d; --bad-ink:#fecaca;
+    --neutral-bg:#2c2f3d; --neutral-ink:#c7c9dc;
+    --tt:#e5e6f5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;
+    transition:background-color .2s ease, color .2s ease;
+  }
+  a{color:inherit;}
+  .demo-banner{
+    background:var(--accent); color:var(--on-accent); text-align:center;
+    font-size:13px; padding:6px 10px; font-weight:600; letter-spacing:.02em;
+  }
+  .app{ display:flex; min-height:100vh; }
+  .sidebar{
+    width:224px; flex:none; background:var(--sidebar-bg); color:var(--sidebar-ink);
+    display:flex; flex-direction:column; padding:18px 12px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; padding:6px 10px 20px; }
+  .brand-mark{
+    width:34px; height:34px; border-radius:9px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; color:var(--on-accent); font-weight:700; font-size:15px; flex:none;
+  }
+  .brand-name{ font-size:15px; font-weight:700; line-height:1.25; }
+  .brand-sub{ font-size:11px; color:var(--sidebar-ink-soft); }
+  .nav-item{
+    display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px;
+    font-size:14px; color:var(--sidebar-ink-soft); cursor:pointer; user-select:none; margin-bottom:2px;
+  }
+  .nav-item svg{ width:18px; height:18px; flex:none; }
+  .nav-item:hover{ background:rgba(255,255,255,0.06); color:var(--sidebar-ink); }
+  .nav-item.active{ background:rgba(165,164,252,0.16); color:var(--sidebar-active); font-weight:600; }
+  .sidebar-foot{ margin-top:auto; padding:14px 10px 2px; font-size:11px; color:var(--sidebar-ink-soft); border-top:1px solid rgba(255,255,255,0.08); }
+
+  .main{ flex:1; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 22px; border-bottom:1px solid var(--border); background:var(--bg);
+    position:sticky; top:0; z-index:5;
+  }
+  .topbar-title{ font-size:17px; font-weight:700; }
+  .topbar-right{ display:flex; align-items:center; gap:14px; }
+  .icon-btn{
+    width:34px; height:34px; border-radius:9px; border:1px solid var(--border); background:var(--surface);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft);
+  }
+  .icon-btn:hover{ color:var(--accent-strong); border-color:var(--accent); }
+  .icon-btn svg{ width:17px; height:17px; }
+  .avatar{
+    width:32px; height:32px; border-radius:50%; background:var(--surface-2); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; border:1px solid var(--border);
+  }
+  .content{ padding:22px; flex:1; }
+  .page{ display:none; }
+  .page.active{ display:block; animation:fadein .25s ease both; }
+  @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+  .page-desc{ color:var(--ink-soft); font-size:13px; margin:2px 0 18px; }
+
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:18px; }
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); }
+  .stat-label{ font-size:13px; color:var(--ink-soft); }
+  .stat-value{ font-size:26px; font-weight:700; margin-top:6px; font-variant-numeric:tabular-nums; }
+  .stat-delta{ font-size:12px; margin-top:6px; font-weight:600; }
+  .stat-delta.up{ color:var(--up); }
+  .stat-delta.down{ color:var(--down); }
+
+  .grid-2{ display:grid; grid-template-columns:1.4fr 1fr; gap:14px; align-items:start; }
+  .panel{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px 20px; box-shadow:var(--shadow); }
+  .panel h3{ margin:0 0 14px; font-size:15px; font-weight:700; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  th{ text-align:left; color:var(--ink-soft); font-weight:600; font-size:12.5px; padding:8px 10px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  td{ padding:10px 10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--surface-2); }
+
+  .badge{ display:inline-block; padding:3px 9px; border-radius:999px; font-size:11.5px; font-weight:600; white-space:nowrap; }
+  .b-todo{ background:var(--neutral-bg); color:var(--neutral-ink); }
+  .b-shoot{ background:var(--info-bg); color:var(--info-ink); }
+  .b-edit{ background:var(--warn-bg); color:var(--warn-ink); }
+  .b-review{ background:var(--surface-2); color:var(--accent-ink); border:1px solid var(--border); }
+  .b-live{ background:var(--ok-bg); color:var(--ok-ink); }
+
+  .plat{ display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; }
+  .dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .dot-yt{ background:var(--yt); } .dot-ig{ background:var(--ig); } .dot-tt{ background:var(--tt); } .dot-fb{ background:var(--fb); }
+
+  .toolbar{ display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .input, select{
+    border:1px solid var(--border); background:var(--bg); color:var(--ink); border-radius:9px;
+    padding:8px 12px; font-size:13.5px; outline:none; font-family:inherit;
+  }
+  .input:focus, select:focus{ border-color:var(--accent); }
+  .btn{
+    border:1px solid var(--border); background:var(--surface); color:var(--ink); border-radius:9px;
+    padding:8px 14px; font-size:13.5px; cursor:pointer; font-weight:600; font-family:inherit;
+  }
+  .btn:hover{ border-color:var(--accent); color:var(--accent-strong); }
+  .btn-primary{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+  .btn-primary:hover{ background:var(--accent-strong); border-color:var(--accent-strong); color:var(--on-accent); }
+
+  .client-rail{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .client-pill{
+    display:flex; align-items:center; gap:8px; padding:8px 14px 8px 8px; border-radius:999px;
+    border:1px solid var(--border); background:var(--surface); cursor:pointer; font-size:13.5px; font-weight:600;
+    color:var(--ink-soft);
+  }
+  .client-pill .avatar-sm{
+    width:24px; height:24px; border-radius:50%; background:var(--surface-2); display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:700; color:var(--accent-ink); flex:none;
+  }
+  .client-pill.active{ border-color:var(--accent); background:var(--surface-2); color:var(--ink); }
+
+  .bar-row{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .bar-name{ width:88px; font-size:13px; color:var(--ink-soft); flex:none; }
+  .bar-track{ flex:1; height:9px; background:var(--surface-2); border-radius:6px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:6px; }
+  .bar-val{ width:44px; text-align:right; font-size:13px; font-weight:700; flex:none; font-variant-numeric:tabular-nums; }
+
+  .cal-wrap{ overflow-x:auto; }
+  .cal-grid{ display:grid; grid-template-columns:56px repeat(7,1fr); min-width:820px; border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .cal-head{ background:var(--surface-2); padding:8px 6px; text-align:center; font-size:12.5px; font-weight:700; border-bottom:1px solid var(--border); border-left:1px solid var(--border); }
+  .cal-head:first-child{ border-left:none; }
+  .cal-time{ font-size:11px; color:var(--ink-soft); padding:4px 6px; text-align:right; border-top:1px solid var(--border); }
+  .cal-cell{ border-top:1px solid var(--border); border-left:1px solid var(--border); min-height:52px; padding:3px; }
+  .cal-evt{ border-radius:6px; font-size:10.5px; padding:3px 6px; margin-bottom:3px; font-weight:600; line-height:1.3; color:#fff; }
+
+  .chart-tip{
+    position:absolute; background:var(--ink); color:var(--bg); font-size:12px; font-weight:600;
+    padding:5px 9px; border-radius:7px; pointer-events:none; opacity:0; transition:opacity .12s ease;
+    white-space:nowrap; transform:translate(-50%,-100%); z-index:5;
+  }
+  .chart-tip.show{ opacity:1; }
+  .chart-panel{ position:relative; }
+  .area-dot{ cursor:pointer; }
+
+  .footnote{ margin-top:26px; padding-top:14px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-soft); text-align:center; }
+
+  @media (max-width: 980px){
+    .stat-grid{ grid-template-columns:repeat(2,1fr); }
+    .grid-2{ grid-template-columns:1fr; }
+    .sidebar{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">🔧 展示用假資料 Demo — 畫面中客戶名稱、帳號數據皆為虛構,僅供介面功能示範</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">拍</div>
+      <div>
+        <div class="brand-name">拍剪工作室</div>
+        <div class="brand-sub">排程 × 成效管理後台</div>
+      </div>
+    </div>
+
+    <div class="nav-item active" data-page="overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      <span>總覽</span>
+    </div>
+    <div class="nav-item" data-page="schedule">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <span>排程表</span>
+    </div>
+    <div class="nav-item" data-page="traffic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
+      <span>客戶流量分析</span>
+    </div>
+
+    <div class="sidebar-foot">展示版 v1.0 · 每次重新整理皆為模擬資料</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="pageTitle">總覽</div>
+      <div class="topbar-right">
+        <div class="icon-btn" id="themeToggle" title="切換深色/淺色">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a9 9 0 1 0 9 9c0-.4 0-.8-.1-1.2A6.5 6.5 0 0 1 12 3Z"/></svg>
+        </div>
+        <div class="avatar">製</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Overview -->
+      <section class="page active" id="page-overview">
+        <p class="page-desc">本月排程、產出與各帳號成效一覽</p>
+        <div class="stat-grid">
+          <div class="card"><div class="stat-label">本月排程任務</div><div class="stat-value">37</div><div class="stat-delta up">↑ 較上月 +6</div></div>
+          <div class="card"><div class="stat-label">進行中專案</div><div class="stat-value">9</div><div class="stat-delta up">3 支待審核</div></div>
+          <div class="card"><div class="stat-label">本月已上架影片</div><div class="stat-value">21</div><div class="stat-delta up">↑ 較上月 +14%</div></div>
+          <div class="card"><div class="stat-label">管理帳號數</div><div class="stat-value">5</div><div class="stat-delta">跨 4 個平台</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>本週排程</h3>
+            <table>
+              <tbody>
+                <tr><td><span class="plat"><span class="dot dot-yt"></span>阿凱生活日常</span><div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">開箱新住處 EP3</div></td><td><span class="badge b-shoot">拍攝</span></td></tr>
+                <tr><td><span class="plat"><span class="dot dot-ig"></span>小雨美妝保養</span><div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">秋冬保濕測評</div></td><td><span class="badge b-edit">剪輯中</span></td></tr>
+                <tr><td><span class="plat"><span class="dot dot-yt"></span>健身教練Leo</span><div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">30天核心挑戰 Day7</div></td><td><span class="badge b-review">待審核</span></td></tr>
+                <tr><td><span class="plat"><span class="dot dot-tt"></span>吃貨小隊</span><div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">夜市隱藏版美食</div></td><td><span class="badge b-todo">未開始</span></td></tr>
+                <tr><td><span class="plat"><span class="dot dot-ig"></span>旅行筆記Nana</span><div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">台東三日遊 Vlog</div></td><td><span class="badge b-live">已上架</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <h3>本月各平台觀看數占比</h3>
+            <div class="bar-row"><div class="bar-name"><span class="plat"><span class="dot dot-yt"></span>YouTube</span></div><div class="bar-track"><div class="bar-fill" style="width:78%;background:var(--yt)"></div></div><div class="bar-val">46%</div></div>
+            <div class="bar-row"><div class="bar-name"><span class="plat"><span class="dot dot-ig"></span>Instagram</span></div><div class="bar-track"><div class="bar-fill" style="width:52%;background:var(--ig)"></div></div><div class="bar-val">28%</div></div>
+            <div class="bar-row"><div class="bar-name"><span class="plat"><span class="dot dot-tt"></span>TikTok</span></div><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--tt)"></div></div><div class="bar-val">18%</div></div>
+            <div class="bar-row"><div class="bar-name"><span class="plat"><span class="dot dot-fb"></span>Facebook</span></div><div class="bar-track"><div class="bar-fill" style="width:14%;background:var(--fb)"></div></div><div class="bar-val">8%</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Schedule -->
+      <section class="page" id="page-schedule">
+        <p class="page-desc">所有客戶的拍攝 / 剪輯 / 上架排程,可依客戶與狀態篩選</p>
+        <div class="toolbar">
+          <select id="fClient"><option value="">全部客戶</option></select>
+          <select id="fStatus">
+            <option value="">全部狀態</option>
+            <option value="todo">未開始</option>
+            <option value="shoot">拍攝</option>
+            <option value="edit">剪輯中</option>
+            <option value="review">待審核</option>
+            <option value="live">已上架</option>
+          </select>
+          <div style="flex:1"></div>
+          <button class="btn btn-primary">+ 新增排程</button>
+        </div>
+        <div class="panel" style="padding:0;overflow:auto;">
+          <table id="scheduleTable">
+            <thead><tr><th>客戶</th><th>內容標題</th><th>日期</th><th>負責人</th><th>狀態</th></tr></thead>
+            <tbody><!-- filled by JS --></tbody>
+          </table>
+        </div>
+
+        <h3 style="margin:26px 0 14px;font-size:15px;">本週時程圖(依客戶顏色區分)</h3>
+        <div class="panel cal-wrap">
+          <div class="cal-grid" id="calGrid"><!-- filled by JS --></div>
+        </div>
+      </section>
+
+      <!-- Traffic -->
+      <section class="page" id="page-traffic">
+        <p class="page-desc">切換客戶查看各帳號流量趨勢與近期影片成效</p>
+        <div class="client-rail" id="clientRail"><!-- filled by JS --></div>
+
+        <div class="stat-grid" id="trafficStats"><!-- filled by JS --></div>
+
+        <div class="grid-2">
+          <div class="panel chart-panel">
+            <h3 id="trafficChartTitle">近 30 天觀看數趨勢</h3>
+            <svg id="trafficChart" viewBox="0 0 560 190" style="width:100%;height:190px;overflow:visible"></svg>
+            <div class="chart-tip" id="trafficTip"></div>
+          </div>
+          <div class="panel">
+            <h3>平台觀看占比</h3>
+            <div id="platformBars"><!-- filled by JS --></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;padding:0;overflow:auto;">
+          <table>
+            <thead><tr><th>影片標題</th><th>平台</th><th>發布日期</th><th>觀看數</th><th>按讚數</th><th>留言數</th></tr></thead>
+            <tbody id="recentVideos"><!-- filled by JS --></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="footnote">此頁面為功能展示原型,實際交付系統可串接各平台官方 API 自動同步流量數據,不需手動輸入。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- nav ----
+  const navItems = document.querySelectorAll('.nav-item');
+  const pages = document.querySelectorAll('.page');
+  const pageTitle = document.getElementById('pageTitle');
+  const titles = { overview:'總覽', schedule:'排程表', traffic:'客戶流量分析' };
+  navItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const key = item.dataset.page;
+      navItems.forEach(n => n.classList.remove('active'));
+      item.classList.add('active');
+      pages.forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + key).classList.add('active');
+      pageTitle.textContent = titles[key];
+    });
+  });
+
+  // ---- theme toggle ----
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  function applyTheme(t){ root.setAttribute('data-theme', t); try{ localStorage.setItem('demo-theme-cs', t); }catch(e){} }
+  let saved = null;
+  try{ saved = localStorage.getItem('demo-theme-cs'); }catch(e){}
+  if(saved) applyTheme(saved);
+  themeBtn.addEventListener('click', () => {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // ---- shared client data ----
+  const CLIENTS = [
+    { id:'kai',  name:'阿凱生活日常', short:'凱', color:'#5b5fef', platform:'yt',
+      followers:128000, monthViews:412000, engagement:5.4, growth:8.2,
+      breakdown:[{p:'YouTube',v:64,color:'var(--yt)'},{p:'Instagram',v:22,color:'var(--ig)'},{p:'Facebook',v:14,color:'var(--fb)'}],
+      videos:[
+        {t:'開箱新住處 EP2', plat:'YouTube', date:'2026-08-29', views:38200, likes:2100, comments:186},
+        {t:'一日開銷紀錄', plat:'YouTube', date:'2026-08-22', views:26500, likes:1450, comments:98},
+        {t:'新家收納整理', plat:'Facebook', date:'2026-08-18', views:9800, likes:520, comments:41},
+      ],
+      series:[22,24,21,26,30,28,33,31,36,34,38,41,39,44,42,47,45,50,48,53,51,56,54,58,57,61,59,64,62,66] },
+    { id:'yu', name:'小雨美妝保養', short:'雨', color:'#c2359a', platform:'ig',
+      followers:96000, monthViews:265000, engagement:7.1, growth:12.6,
+      breakdown:[{p:'Instagram',v:58,color:'var(--ig)'},{p:'TikTok',v:32,color:'var(--tt)'},{p:'YouTube',v:10,color:'var(--yt)'}],
+      videos:[
+        {t:'秋冬保濕測評 Top5', plat:'Instagram', date:'2026-09-01', views:41200, likes:3800, comments:302},
+        {t:'開架 vs 專櫃粉底', plat:'TikTok', date:'2026-08-26', views:58900, likes:5200, comments:410},
+        {t:'早晨保養流程', plat:'Instagram', date:'2026-08-20', views:19500, likes:1600, comments:120},
+      ],
+      series:[14,16,15,18,20,19,23,25,24,28,30,29,33,35,34,38,40,39,44,46,45,50,52,51,56,58,57,62,64,66] },
+    { id:'leo', name:'健身教練Leo', short:'健', color:'#16a34a', platform:'yt',
+      followers:154000, monthViews:388000, engagement:6.0, growth:5.4,
+      breakdown:[{p:'YouTube',v:70,color:'var(--yt)'},{p:'Instagram',v:24,color:'var(--ig)'},{p:'Facebook',v:6,color:'var(--fb)'}],
+      videos:[
+        {t:'30天核心挑戰 Day6', plat:'YouTube', date:'2026-08-31', views:33400, likes:2600, comments:210},
+        {t:'居家啞鈴全身訓練', plat:'YouTube', date:'2026-08-24', views:29800, likes:2300, comments:175},
+        {t:'增肌飲食懶人包', plat:'Instagram', date:'2026-08-15', views:15200, likes:1300, comments:88},
+      ],
+      series:[30,29,32,31,34,36,35,38,37,40,42,41,44,46,45,48,47,50,52,51,54,53,56,58,57,60,59,62,61,64] },
+    { id:'food', name:'吃貨小隊', short:'食', color:'#ea580c', platform:'tt',
+      followers:210000, monthViews:560000, engagement:8.9, growth:15.3,
+      breakdown:[{p:'TikTok',v:66,color:'var(--tt)'},{p:'YouTube',v:26,color:'var(--yt)'},{p:'Instagram',v:8,color:'var(--ig)'}],
+      videos:[
+        {t:'夜市隱藏版美食地圖', plat:'TikTok', date:'2026-09-02', views:98200, likes:8900, comments:640},
+        {t:'路邊攤挑戰30元吃飽', plat:'TikTok', date:'2026-08-27', views:112000, likes:10400, comments:820},
+        {t:'排隊名店真的值得？', plat:'YouTube', date:'2026-08-19', views:44500, likes:3100, comments:260},
+      ],
+      series:[40,42,41,45,48,47,52,55,53,58,61,60,65,68,66,71,74,72,77,80,78,83,86,84,89,92,90,95,98,96] },
+    { id:'nana', name:'旅行筆記Nana', short:'旅', color:'#3468d1', platform:'yt',
+      followers:82000, monthViews:198000, engagement:4.7, growth:3.1,
+      breakdown:[{p:'YouTube',v:60,color:'var(--yt)'},{p:'Instagram',v:34,color:'var(--ig)'},{p:'Facebook',v:6,color:'var(--fb)'}],
+      videos:[
+        {t:'台東三日遊 Vlog', plat:'YouTube', date:'2026-08-30', views:21400, likes:1500, comments:96},
+        {t:'秘境海岸線空拍', plat:'Instagram', date:'2026-08-21', views:16800, likes:1900, comments:64},
+        {t:'背包客住宿推薦', plat:'YouTube', date:'2026-08-12', views:12900, likes:880, comments:52},
+      ],
+      series:[18,17,19,18,20,22,21,23,22,24,26,25,27,26,28,30,29,31,30,32,34,33,35,34,36,38,37,39,38,40] },
+  ];
+  const STATUS_LABEL = { todo:'未開始', shoot:'拍攝', edit:'剪輯中', review:'待審核', live:'已上架' };
+  const TASKS = [
+    { client:'kai',  title:'開箱新住處 EP3',      type:'shoot',  date:'2026-09-08', owner:'攝影／阿明' },
+    { client:'yu',   title:'秋冬保濕測評',         type:'edit',   date:'2026-09-07', owner:'剪輯／小陳' },
+    { client:'leo',  title:'30天核心挑戰 Day7',    type:'review', date:'2026-09-06', owner:'剪輯／阿哲' },
+    { client:'food', title:'夜市隱藏版美食',       type:'todo',   date:'2026-09-09', owner:'攝影／佳玲' },
+    { client:'nana', title:'台東三日遊 Vlog',      type:'live',   date:'2026-09-05', owner:'剪輯／小陳' },
+    { client:'kai',  title:'一日開銷紀錄 EP2',     type:'edit',   date:'2026-09-10', owner:'剪輯／阿哲' },
+    { client:'yu',   title:'開架 vs 專櫃粉底',     type:'live',   date:'2026-09-04', owner:'剪輯／小陳' },
+    { client:'leo',  title:'增肌飲食懶人包 EP2',   type:'shoot',  date:'2026-09-11', owner:'攝影／阿明' },
+    { client:'food', title:'排隊名店真的值得？續集', type:'todo', date:'2026-09-12', owner:'攝影／佳玲' },
+    { client:'nana', title:'秘境海岸線空拍 Part2',  type:'shoot', date:'2026-09-09', owner:'攝影／阿明' },
+  ];
+
+  // ---- schedule table + filters ----
+  const clientById = Object.fromEntries(CLIENTS.map(c => [c.id, c]));
+  const fClient = document.getElementById('fClient');
+  CLIENTS.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id; opt.textContent = c.name;
+    fClient.appendChild(opt);
+  });
+
+  function renderSchedule(){
+    const clientFilter = fClient.value;
+    const statusFilter = document.getElementById('fStatus').value;
+    const tbody = document.querySelector('#scheduleTable tbody');
+    tbody.innerHTML = '';
+    TASKS.filter(t => (!clientFilter || t.client === clientFilter) && (!statusFilter || t.type === statusFilter))
+      .forEach(t => {
+        const c = clientById[t.client];
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><span class="plat"><span class="dot" style="background:${c.color}"></span>${c.name}</span></td>
+          <td>${t.title}</td>
+          <td>${t.date}</td>
+          <td>${t.owner}</td>
+          <td><span class="badge b-${t.type}">${STATUS_LABEL[t.type]}</span></td>`;
+        tbody.appendChild(tr);
+      });
+  }
+  fClient.addEventListener('change', renderSchedule);
+  document.getElementById('fStatus').addEventListener('change', renderSchedule);
+  renderSchedule();
+
+  // ---- week calendar (colored by client) ----
+  const calGrid = document.getElementById('calGrid');
+  const days = ['一 9/1','二 9/2','三 9/3','四 9/4','五 9/5','六 9/6','日 9/7'];
+  let calHtml = '<div class="cal-head"></div>' + days.map(d => `<div class="cal-head">${d}</div>`).join('');
+  const slots = ['上午','下午','晚間'];
+  // deterministic pseudo-placement of a few tasks across the week grid for a populated look
+  const placements = [
+    [0,0],[2,1],[4,2],[1,1],[3,0],[6,2],[5,1],[0,2],[2,0],[4,1]
+  ];
+  slots.forEach((slotLabel, rowIdx) => {
+    calHtml += `<div class="cal-time">${slotLabel}</div>`;
+    for(let day=0; day<7; day++){
+      let cell = '<div class="cal-cell">';
+      placements.forEach(([pDay, pRow], idx) => {
+        if(pDay === day && pRow === rowIdx && TASKS[idx]){
+          const c = clientById[TASKS[idx].client];
+          cell += `<div class="cal-evt" style="background:${c.color}">${c.short} · ${TASKS[idx].title.slice(0,6)}</div>`;
+        }
+      });
+      cell += '</div>';
+      calHtml += cell;
+    }
+  });
+  calGrid.innerHTML = calHtml;
+
+  // ---- traffic page ----
+  const clientRail = document.getElementById('clientRail');
+  CLIENTS.forEach((c, i) => {
+    const pill = document.createElement('div');
+    pill.className = 'client-pill' + (i === 0 ? ' active' : '');
+    pill.dataset.id = c.id;
+    pill.innerHTML = `<span class="avatar-sm">${c.short}</span>${c.name}`;
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.client-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      renderTraffic(c.id);
+    });
+    clientRail.appendChild(pill);
+  });
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const trafficSvg = document.getElementById('trafficChart');
+  const trafficTip = document.getElementById('trafficTip');
+
+  function fmt(n){ return n.toLocaleString('zh-Hant-TW'); }
+
+  function renderTraffic(clientId){
+    const c = clientById[clientId];
+    document.getElementById('trafficChartTitle').textContent = `${c.name} · 近 30 天觀看數趨勢`;
+
+    // stat cards
+    const statsEl = document.getElementById('trafficStats');
+    statsEl.innerHTML = `
+      <div class="card"><div class="stat-label">追蹤者數</div><div class="stat-value">${fmt(c.followers)}</div><div class="stat-delta up">↑ 本月 +${c.growth}%</div></div>
+      <div class="card"><div class="stat-label">本月總觀看數</div><div class="stat-value">${fmt(c.monthViews)}</div><div class="stat-delta up">↑ 較上月成長</div></div>
+      <div class="card"><div class="stat-label">平均互動率</div><div class="stat-value">${c.engagement}%</div><div class="stat-delta">讚+留言/觀看數</div></div>
+      <div class="card"><div class="stat-label">主力平台</div><div class="stat-value" style="font-size:18px;">${({yt:'YouTube',ig:'Instagram',tt:'TikTok'})[c.platform]}</div><div class="stat-delta">佔比最高</div></div>
+    `;
+
+    // area chart
+    trafficSvg.innerHTML = '';
+    const W = 560, H = 190, padL = 8, padR = 8, padTop = 14, padBottom = 22;
+    const data = c.series;
+    const maxV = Math.max(...data);
+    const minV = Math.min(...data);
+    const span = (maxV - minV) || 1;
+    const stepX = (W - padL - padR) / (data.length - 1);
+    const points = data.map((v, i) => {
+      const x = padL + i * stepX;
+      const y = padTop + (H - padTop - padBottom) * (1 - (v - minV) / span);
+      return [x, y];
+    });
+    const lineStr = points.map(p => p.join(',')).join(' ');
+    const areaStr = lineStr + ` ${points[points.length-1][0]},${H-padBottom} ${points[0][0]},${H-padBottom}`;
+
+    const grid = document.createElementNS(svgNS,'g');
+    [0.25,0.5,0.75].forEach(f => {
+      const y = padTop + (H - padTop - padBottom) * f;
+      const l = document.createElementNS(svgNS,'line');
+      l.setAttribute('x1', padL); l.setAttribute('x2', W - padR);
+      l.setAttribute('y1', y); l.setAttribute('y2', y);
+      l.setAttribute('stroke', 'var(--border)'); l.setAttribute('stroke-width','1');
+      grid.appendChild(l);
+    });
+    trafficSvg.appendChild(grid);
+
+    const poly = document.createElementNS(svgNS,'polygon');
+    poly.setAttribute('points', areaStr);
+    poly.setAttribute('fill', c.color); poly.setAttribute('opacity','0.14');
+    trafficSvg.appendChild(poly);
+
+    const line = document.createElementNS(svgNS,'polyline');
+    line.setAttribute('points', lineStr);
+    line.setAttribute('fill','none'); line.setAttribute('stroke', c.color); line.setAttribute('stroke-width','2.5');
+    line.setAttribute('stroke-linejoin','round'); line.setAttribute('stroke-linecap','round');
+    trafficSvg.appendChild(line);
+
+    points.forEach(([x,y], i) => {
+      const dot = document.createElementNS(svgNS,'circle');
+      dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', i === points.length-1 ? 4.5 : 3);
+      dot.setAttribute('fill', c.color);
+      dot.classList.add('area-dot');
+      dot.addEventListener('mousemove', (e) => {
+        const box = trafficSvg.getBoundingClientRect();
+        trafficTip.style.left = (e.clientX - box.left) + 'px';
+        trafficTip.style.top = (e.clientY - box.top - 10) + 'px';
+        trafficTip.textContent = `第 ${i+1} 天:約 ${fmt(data[i] * 1000)} 次觀看`;
+        trafficTip.classList.add('show');
+      });
+      dot.addEventListener('mouseleave', () => trafficTip.classList.remove('show'));
+      trafficSvg.appendChild(dot);
+    });
+
+    // platform breakdown
+    const platEl = document.getElementById('platformBars');
+    platEl.innerHTML = c.breakdown.map(b => `
+      <div class="bar-row">
+        <div class="bar-name">${b.p}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${b.v}%;background:${b.color}"></div></div>
+        <div class="bar-val">${b.v}%</div>
+      </div>`).join('');
+
+    // recent videos
+    const vidEl = document.getElementById('recentVideos');
+    vidEl.innerHTML = c.videos.map(v => `
+      <tr>
+        <td>${v.t}</td>
+        <td>${v.plat}</td>
+        <td>${v.date}</td>
+        <td>${fmt(v.views)}</td>
+        <td>${fmt(v.likes)}</td>
+        <td>${fmt(v.comments)}</td>
+      </tr>`).join('');
+  }
+  renderTraffic(CLIENTS[0].id);
+</script>
+
+</body>
+</html>
